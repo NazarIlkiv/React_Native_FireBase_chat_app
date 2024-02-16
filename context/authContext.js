@@ -9,9 +9,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     // onAuthStateChanger => function FireBase
 
-    setTimeout(() => {
-      setIsAuthenticated(false);
-    }, 3000);
+    setIsAuthenticated(false);
   }, []);
 
   const login = async (email, password) => {

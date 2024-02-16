@@ -13,7 +13,6 @@ const MainLayout = () => {
     // Check if user is authenticated
     if (typeof isAuthenticated == "undefiend") return;
     const inApp = segments[0] === "app"; // має повертати false
-    console.log(inApp);
     if (isAuthenticated && !inApp) {
       router.replace("home");
     } else if (isAuthenticated == false) {
