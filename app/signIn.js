@@ -1,15 +1,41 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  Pressable,
+  Alert,
+} from "react-native";
+import React, { useRef, useState } from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { StatusBar } from "expo-status-bar";
 import { Octicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import Loading from "../components/Loading";
+import CustomKeyboardAvoidView from "../components/CustomKeyboardAvoidView";
 
 const SignIn = () => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+
+  const handleLogin = async () => {
+    if (!emailRef.current || !passwordRef.current) {
+      Alert.alert("Sign in", "Please fill all the fields");
+      return;
+    }
+
+    // login process
+  };
+
   return (
-    <View className="flex-1">
+    <CustomKeyboardAvoidView>
       <StatusBar style="dark" />
       <View
         style={{ paddingTop: hp(25), paddingHorizontal: wp(5) }}
@@ -37,6 +63,7 @@ const SignIn = () => {
             >
               <Octicons name="mail" size={hp(2.7)} color="gray" />
               <TextInput
+                onChange={(value) => (emailRef.current = value)}
                 style={{ fontSize: hp(2) }}
                 className="flex-1 font-semibold text-neutral-700"
                 placeholder="Email address"
@@ -50,8 +77,10 @@ const SignIn = () => {
               >
                 <Octicons name="lock" size={hp(2.7)} color="gray" />
                 <TextInput
+                  onChange={(value) => (passwordRef.current = value)}
                   style={{ fontSize: hp(2) }}
                   className="flex-1 font-semibold text-neutral-700"
+                  secureTextEntry
                   placeholder="Password"
                   placeholderTextColor={"gray"}
                 />
@@ -65,27 +94,56 @@ const SignIn = () => {
             </View>
 
             {/* submit button */}
-            <TouchableOpacity
-              onPress={() => {}}
-              style={{
-                height: hp(6.5),
-                backgroundColor: "rgba(99, 102, 241, 1)",
-                borderRadius: 12,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+
+            <View>
+              {loading ? (
+                <View className="flex-row justify-center">
+                  <Loading size={hp(6.5)} />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={handleLogin}
+                  style={{
+                    height: hp(6.5),
+                    backgroundColor: "rgba(99, 102, 241, 1)",
+                    borderRadius: 12,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: hp(2.7) }}
+                    className="text-white font-bold tracking-wider"
+                  >
+                    Sign In
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+
+            {/* sign up text */}
+
+            <View className="flex-row justify-center">
               <Text
-                style={{ fontSize: hp(2.7) }}
-                className="text-white font-bold tracking-wider"
+                style={{ fontSize: hp(1.8) }}
+                className="font-semibold text-neutral-500"
               >
-                Sign In
+                Don`t have an account?
               </Text>
-            </TouchableOpacity>
+              <Pressable onPress={() => router.push("signUp")}>
+                <Text
+                  style={{ fontSize: hp(1.8) }}
+                  className="text-indigo-500 font-bold"
+                >
+                  {" "}
+                  Sign Up
+                </Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </CustomKeyboardAvoidView>
   );
 };
 
