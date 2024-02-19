@@ -29,8 +29,12 @@ export const AuthContextProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-    } catch (error) {
-      console.log("Error Login", error);
+      const response = await signInWithEmailAndPassword(auth, email, password);
+      return { success: true };
+    } catch (e) {
+      let msg = e.message;
+      if (msg.includes("(auth/invalid-email)")) msg = "Invalid email";
+      return { success: false, msg };
     }
   };
 
@@ -64,6 +68,8 @@ export const AuthContextProvider = ({ children }) => {
     } catch (e) {
       let msg = e.message;
       if (msg.includes("(auth/invalid-email)")) msg = "Invalid email";
+      if (msg.includes("(auth/email-already-in-use)"))
+        msg = "This email is already in use";
       return { success: false, msg };
     }
   };

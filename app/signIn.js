@@ -17,10 +17,12 @@ import { Octicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import Loading from "../components/Loading";
 import CustomKeyboardAvoidView from "../components/CustomKeyboardAvoidView";
+import { useAuth } from "../context/authContext";
 
 const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { login } = useAuth();
 
   const emailRef = useRef("");
   const passwordRef = useRef("");
@@ -30,7 +32,12 @@ const SignIn = () => {
       Alert.alert("Sign in", "Please fill all the fields");
       return;
     }
-
+    setLoading(true);
+    const response = await login(emailRef.current, passwordRef.current);
+    setLoading(false);
+    if (!response.success) {
+      Alert.alert("Sign in", response.msg);
+    }
     // login process
   };
 
@@ -63,7 +70,7 @@ const SignIn = () => {
             >
               <Octicons name="mail" size={hp(2.7)} color="gray" />
               <TextInput
-                onChange={(value) => (emailRef.current = value)}
+                onChangeText={(value) => (emailRef.current = value)}
                 style={{ fontSize: hp(2) }}
                 className="flex-1 font-semibold text-neutral-700"
                 placeholder="Email address"
@@ -77,7 +84,7 @@ const SignIn = () => {
               >
                 <Octicons name="lock" size={hp(2.7)} color="gray" />
                 <TextInput
-                  onChange={(value) => (passwordRef.current = value)}
+                  onChangeText={(value) => (passwordRef.current = value)}
                   style={{ fontSize: hp(2) }}
                   className="flex-1 font-semibold text-neutral-700"
                   secureTextEntry
