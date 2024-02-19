@@ -6,7 +6,11 @@ import {
   connectAuthEmulator,
 } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getFirestore, collection } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  connectFirestoreEmulator,
+} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-librariesі
 
@@ -28,9 +32,7 @@ const app = initializeApp(firebaseConfig);
 export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
-
-// connectAuthEmulator(auth, "http://localhost:9099");
-// connectAuthEmulator(auth, `http://127.0.0.1:9099`);
+// connectAuthEmulator(auth, `http://10.0.2.2:9099`);
 
 export const db = getFirestore(app);
 

@@ -4,6 +4,7 @@ import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
@@ -35,8 +36,10 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = async (email, password) => {
     try {
-    } catch (error) {
-      console.log("Error Logout", error);
+      await signOut(auth);
+      return { success: true };
+    } catch (e) {
+      return { success: false, msg: e.message, error: e };
     }
   };
 
@@ -60,12 +63,7 @@ export const AuthContextProvider = ({ children }) => {
       return { success: true, data: response?.user };
     } catch (e) {
       let msg = e.message;
-      if (msg.includes("(auth/invalid-email)")) {
-        msg = "Invalid email";
-      }
-      if (msg.includes("(auth/email-already-in-use)")) {
-        msg = "Email already in use";
-      }
+      if (msg.includes("(auth/invalid-email)")) msg = "Invalid email";
       return { success: false, msg };
     }
   };

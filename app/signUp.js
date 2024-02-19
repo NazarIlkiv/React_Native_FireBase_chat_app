@@ -86,7 +86,7 @@ const SignUp = () => {
             >
               <Feather name="user" size={hp(2.7)} color="gray" />
               <TextInput
-                onChange={(value) => (usernameRef.current = value)}
+                onChangeText={(value) => (usernameRef.current = value)}
                 style={{ fontSize: hp(2) }}
                 className="flex-1 font-semibold text-neutral-700"
                 placeholder="User name"
@@ -100,7 +100,7 @@ const SignUp = () => {
             >
               <Octicons name="mail" size={hp(2.7)} color="gray" />
               <TextInput
-                onChange={(value) => (emailRef.current = value)}
+                onChangeText={(value) => (emailRef.current = value)}
                 style={{ fontSize: hp(2) }}
                 className="flex-1 font-semibold text-neutral-700"
                 placeholder="Email address"
@@ -114,7 +114,7 @@ const SignUp = () => {
             >
               <Octicons name="lock" size={hp(2.7)} color="gray" />
               <TextInput
-                onChange={(value) => (passwordRef.current = value)}
+                onChangeText={(value) => (passwordRef.current = value)}
                 style={{ fontSize: hp(2) }}
                 className="flex-1 font-semibold text-neutral-700"
                 secureTextEntry
@@ -129,7 +129,7 @@ const SignUp = () => {
             >
               <Feather name="image" size={hp(2.7)} color="gray" />
               <TextInput
-                onChange={(value) => (profileRef.current = value)}
+                onChangeText={(value) => (profileRef.current = value)}
                 style={{ fontSize: hp(2) }}
                 className="flex-1 font-semibold text-neutral-700"
                 placeholder="Profile url"
