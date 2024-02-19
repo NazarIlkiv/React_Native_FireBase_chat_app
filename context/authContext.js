@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import { auth, db } from "../firebaseConfig";
+import { auth, db, usersRef } from "../firebaseConfig";
 import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
@@ -19,6 +19,7 @@ export const AuthContextProvider = ({ children }) => {
       if (user) {
         setIsAuthenticated(true);
         setUser(user);
+        updateUserData(user.uid);
       } else {
         setIsAuthenticated(false);
         setUser(null);
@@ -27,6 +28,20 @@ export const AuthContextProvider = ({ children }) => {
     return unsub;
   }, []);
 
+  updateUserData = async (userId) => {
+    const docRef = doc(db, "users", userId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      let data = docSnap.data();
+      setUser({
+        ...user,
+        username: data.username,
+        profileUrl: data.profileUrl,
+        userId: data.userId,
+      });
+    }
+  };
+
   const login = async (email, password) => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
@@ -34,6 +49,7 @@ export const AuthContextProvider = ({ children }) => {
     } catch (e) {
       let msg = e.message;
       if (msg.includes("(auth/invalid-email)")) msg = "Invalid email";
+      if (msg.includes("(auth/invalid-credential)")) msg = "Wrong credentials";
       return { success: false, msg };
     }
   };
