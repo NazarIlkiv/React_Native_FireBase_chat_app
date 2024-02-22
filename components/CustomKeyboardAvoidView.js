@@ -13,7 +13,7 @@ const CustomKeyboardAvoidView = ({ children, inChat }) => {
   let scrollViewConfig = {};
   if (inChat) {
     kavConfig = {
-      KeyboardVerticalOffset: 90,
+      keyboardVerticalOffset: 90,
     };
     scrollViewConfig = {
       contentContainerStyle: { flex: 1 },
@@ -29,7 +29,7 @@ const CustomKeyboardAvoidView = ({ children, inChat }) => {
         style={{ flex: 1 }}
         bounces={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ flex: 1 }}
+        {...scrollViewConfig}
       >
         {children}
       </ScrollView>
