@@ -7,8 +7,12 @@ import {
 } from "react-native-responsive-screen";
 
 const ChatItem = ({ item, noBorder, router }) => {
+  const openChatRoom = () => {
+    router.push({ pathname: "/chatRoom", params: item });
+  };
   return (
     <Pressable
+      onPress={openChatRoom}
       className={`flex-row justify-between mx-4 items-center gap-3 mb-4 pb-2 ${
         noBorder ? "" : "border-b border-b-neutral-200"
       }`}
